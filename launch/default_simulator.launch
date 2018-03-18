@@ -1,0 +1,5 @@
+<launch>
+  <node name="marble_simulator_ode_node" pkg="marble_simulator_ode" type="marble_simulator_ode_node">
+    <param name="obstacle_file" value="$(find marble_simulator_ode)/configs/c0000.txt"/>
+  </node>
+</launch>

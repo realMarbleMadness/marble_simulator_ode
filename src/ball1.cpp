@@ -15,9 +15,10 @@ y points away from viewer, so angles are negative.
 ****************************************************************/
 
 #include <math.h>
-#include <string.h>
+#include <string>
 #include <ode/ode.h>
 #include <drawstuff/drawstuff.h>
+#include "ros/ros.h"
 
 /****************************************************************/
 
@@ -343,11 +344,12 @@ static void simLoop(int pause)
   }
 
   draw_stuff();
+  ros::spinOnce();
 }
 
 /****************************************************************/
 
-int read_setup_file(char *filename, SETUP *h)
+int read_setup_file(const char *filename, SETUP *h)
 {
   int i;
   FILE *stream;
@@ -405,7 +407,7 @@ int read_setup_file(char *filename, SETUP *h)
 
 /****************************************************************/
 
-void create_bodies(char *filename, SETUP *h)
+void create_bodies(const char *filename, SETUP *h)
 {
   int i;
   dMass m;
@@ -483,16 +485,23 @@ Main program: When the program starts, the callbacks are set up,
 everything is initialized, and then the simulation is started.
 */
 
-int main(int argc, const char **argv)
+int main(int argc, char **argv)
 {
-  dReal erp, cfm;
-  char *filename;
 
-  if (argc < 2)
-    filename = (char *)"c0000.txt";
+  ros::init(argc, argv, "marble_simulator_ode_node");
+  ros::NodeHandle n("~");
+  std::string obstacle_file_name;
+  if (n.getParam("obstacle_file", obstacle_file_name))
+  {
+      ROS_INFO("Got param: %s", obstacle_file_name.c_str());
+  }
   else
-    filename = (char *)(argv[1]);
-  printf("Using setup file %s\n", filename);
+  {
+      ROS_ERROR("Failed to get param 'obstacle_file'");
+  }
+
+  dReal erp, cfm;
+  
 
   // setup pointers to drawstuff callback functions
   dsFunctions fn;
@@ -518,11 +527,11 @@ int main(int argc, const char **argv)
   */
 
   contactgroup = dJointGroupCreate(0);
-
+  const char* filename = obstacle_file_name.c_str();
   create_bodies(filename, &current_setup);
 
   // run simulation
-  dsSimulationLoop(argc, (char **)argv, WINDOW_WIDTH, WINDOW_HEIGHT, &fn);
+  dsSimulationLoop(argc, argv, WINDOW_WIDTH, WINDOW_HEIGHT, &fn);
 
   // clean up
   dJointGroupDestroy(contactgroup);
