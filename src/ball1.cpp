@@ -490,6 +490,7 @@ int main(int argc, char **argv)
 
   ros::init(argc, argv, "marble_simulator_ode_node");
   ros::NodeHandle n("~");
+
   std::string obstacle_file_name;
   if (n.getParam("obstacle_file", obstacle_file_name))
   {
@@ -498,6 +499,16 @@ int main(int argc, char **argv)
   else
   {
       ROS_ERROR("Failed to get param 'obstacle_file'");
+  }
+
+  std::string texture_path;
+  if (n.getParam("texture_path", texture_path))
+  {
+      ROS_INFO("Got param: %s", texture_path.c_str());
+  }
+  else
+  {
+      ROS_ERROR("Failed to get param 'texture_path'");
   }
 
   dReal erp, cfm;
@@ -510,7 +521,7 @@ int main(int argc, char **argv)
   fn.step = &simLoop;
   fn.stop = 0;
   fn.command = &command;
-  fn.path_to_textures = DRAWSTUFF_TEXTURE_PATH;
+  fn.path_to_textures = texture_path.c_str();
 
   dInitODE();
   // create world
