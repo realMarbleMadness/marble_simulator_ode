@@ -2,6 +2,7 @@
 
 - [Marble Madness - Simulator Node](#marble-madness---simulator-node)
     - [How to install all the dependencies](#how-to-install-all-the-dependencies)
+    - [Parameters](#parameters)
     - [See the demo](#see-the-demo)
     - [Extra notes about the code](#extra-notes-about-the-code)
 
@@ -16,6 +17,10 @@ The main code we need to care about is stored in the `/ball1` folder. Detailed e
 5. `sudo cp -rp include/drawstuff /usr/local/include/`
 6. `cd drawstuff/src/`
 7. `sudo cp libdrawstuff.la .libs/libdrawstuff.a /usr/local/lib/`
+
+## Parameters
+
+- `time_step`: the time step for the simulator to go forward. If it is too small, it will miss some collision. If it's too large, it will be too slow
 
 ## See the demo
 

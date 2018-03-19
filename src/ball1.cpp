@@ -1,11 +1,4 @@
 /****************************************************************
-Dropping ball program
-
-I assume some version of Open Dynamics Engine (ODE) is installed.
-
-Changed drawstuff so this is negative and coordinate system has
-X positive:
-#define LIGHTY (-0.4f)
 
 Note: 
 x points to viewer's right.
@@ -18,7 +11,8 @@ y points away from viewer, so angles are negative.
 #include <string>
 #include <ode/ode.h>
 #include <drawstuff/drawstuff.h>
-#include "ros/ros.h"
+#include <ros/ros.h>
+#include "utils.h"
 
 /****************************************************************/
 
@@ -36,8 +30,8 @@ y points away from viewer, so angles are negative.
 #define YY 1
 #define ZZ 2
 
-// #define TIME_STEP 0.005
-#define TIME_STEP 0.001
+float TIME_STEP = 0.001;
+//#define TIME_STEP 0.001
 #define WAIT_TO_START 0.1
 
 // These should be set up in configuration file
@@ -491,25 +485,10 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "marble_simulator_ode_node");
   ros::NodeHandle n("~");
 
-  std::string obstacle_file_name;
-  if (n.getParam("obstacle_file", obstacle_file_name))
-  {
-      ROS_INFO("Got param: %s", obstacle_file_name.c_str());
-  }
-  else
-  {
-      ROS_ERROR("Failed to get param 'obstacle_file'");
-  }
-
-  std::string texture_path;
-  if (n.getParam("texture_path", texture_path))
-  {
-      ROS_INFO("Got param: %s", texture_path.c_str());
-  }
-  else
-  {
-      ROS_ERROR("Failed to get param 'texture_path'");
-  }
+  std::string obstacle_file_name, texture_path;
+  grab_params(n, "obstacle_file", obstacle_file_name);
+  grab_params(n, "texture_path", texture_path);
+  grab_params(n, "time_step", TIME_STEP);
 
   dReal erp, cfm;
   
