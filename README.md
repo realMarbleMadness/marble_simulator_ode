@@ -14,13 +14,14 @@ The main code we need to care about is stored in the `/ball1` folder. Detailed e
 3. edit `drawstuff/src/drawstuff.cpp`, change line #79 to `#define LIGHTY (-0.4f)`
 4. `make` then `sudo make install`
 5. `sudo cp -rp include/drawstuff /usr/local/include/`
-6. `sudo cp drawstuff/src/libdrawstuff.la .libs/libdrawstuff.a /usr/local/lib/`
+6. `cd drawstuff/src/`
+7. `sudo cp libdrawstuff.la .libs/libdrawstuff.a /usr/local/lib/`
 
 ## See the demo
 
-```
-roslaunch marble_simulator_ode default_simulator.launch
-```
+1. `git clone` this repo into your catkin workspace `/src` folder
+2. `cd` into catkin workspace, then `catkin_make` 
+3. `roslaunch marble_simulator_ode default_simulator.launch`
 
 ## Extra notes about the code
 - the `CMakeLists.txt` is a masterpiece
