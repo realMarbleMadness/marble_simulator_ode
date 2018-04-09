@@ -1,0 +1,58 @@
+{
+  "destination": {
+    "x": 10,
+    "y": 10.5
+  },
+  "bounds": {
+    "x": [
+      -40,
+      20
+    ],
+    "y": [
+      0,
+      40
+    ],
+    "rotation": [
+      0,
+      31.4159265359
+    ]
+  },
+  "n_obstacles": 5,
+  "obstacles": [
+    {
+      "width": 0.1,
+      "height": 0.01,
+      "x": 0.04,
+      "y": 0.45,
+      "rotation": 0.1
+    },
+    {
+      "width": 0.1,
+      "height": 0.01,
+      "x": 0.2,
+      "y": 0.05,
+      "rotation": 0.1
+    },
+    {
+      "width": 0.03,
+      "height": 0.01,
+      "x": 0.3,
+      "y": 0.01,
+      "rotation": 0.0
+    },
+    {
+      "width": 0.01,
+      "height": 0.02,
+      "x": 0.32,
+      "y": 0.015,
+      "rotation": 0.0
+    },
+    {
+      "width": 0.01,
+      "height": 0.02,
+      "x": 0.28,
+      "y": 0.015,
+      "rotation": 0.0
+    }
+  ]
+}

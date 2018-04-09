@@ -21,6 +21,7 @@ The main code we need to care about is stored in the `/ball1` folder. Detailed e
 ## Parameters
 
 - `time_step`: the time step for the simulator to go forward. If it is too small, it will miss some collision. If it's too large, it will be too slow
+- `obstacle_file`: the path to the json file that contains the information about the whole world setup. This json file should be created by the box-2d optimizer.
 
 ## See the demo
 
@@ -30,4 +31,3 @@ The main code we need to care about is stored in the `/ball1` folder. Detailed e
 
 ## Extra notes about the code
 - the `CMakeLists.txt` is a masterpiece
-- The `configs/cxxxx.txt` are obstacle configurations. Every line represents a rectangle, where each line contains dimentions, position and angle.

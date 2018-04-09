@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 2.8.3)
 project(marble_simulator_ode)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-set(DRAWSTUFF_TEXTURE_PATH "\"../useful/drawstuff-linux/textures\"")
+set(RAPIDJSON_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/rapidjson/include")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 add_definitions(-DDRAWSTUFF_TEXTURE_PATH=${DRAWSTUFF_TEXTURE_PATH})
@@ -136,6 +136,7 @@ include_directories(
   ${DRAWSTUFF_INCLUDE_DIR}
   ${OPENGL_INCLUDE_DIR}
   ${X11_INCLUDE_DIR}
+  ${RAPIDJSON_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
@@ -151,7 +152,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/ball1.cpp src/utils.cpp src/utils.h)
+add_executable(${PROJECT_NAME}_node src/ball1.cpp src/utils.cpp src/utils.h src/environment.cpp src/environment.h)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

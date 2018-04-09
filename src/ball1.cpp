@@ -13,6 +13,7 @@ y points away from viewer, so angles are negative.
 #include <drawstuff/drawstuff.h>
 #include <ros/ros.h>
 #include "utils.h"
+#include "environment.h"
 
 /****************************************************************/
 
@@ -45,9 +46,6 @@ float TIME_STEP = 0.001;
 #define WINDOW_WIDTH 500
 #define WINDOW_HEIGHT 500
 
-// used to allocate space for obstacles
-#define MAX_N_GEOMS 100
-
 // object types
 #define BALL 0
 #define OBSTACLE 1
@@ -65,27 +63,6 @@ float TIME_STEP = 0.001;
 #define dsDrawConvex dsDrawConvexD
 #define dsDrawTriangle dsDrawTriangleD
 #endif
-
-/****************************************************************/
-// Typedefs
-
-typedef struct rect
-{
-  double dimensions[3];
-  double pos[3];
-  double angle;
-} RECT;
-
-typedef struct setup
-{
-  // these are static ODE objects: just geometries
-
-  dGeomID the_wall;
-
-  RECT obstacles[MAX_N_GEOMS];
-  dGeomID the_obstacles[MAX_N_GEOMS];
-  int n_obstacles;
-} SETUP;
 
 /****************************************************************/
 // Globals
@@ -401,14 +378,13 @@ int read_setup_file(const char *filename, SETUP *h)
 
 /****************************************************************/
 
-void create_bodies(const char *filename, SETUP *h)
+void create_bodies(std::string filename, SETUP *h)
 {
   int i;
   dMass m;
   dQuaternion q;
 
-  read_setup_file(filename, h);
-
+  h->init(filename);
   // create ball object
   ball_body = dBodyCreate(world);
   ball_geom = dCreateSphere(space, BALL_DIAMETER / 2);
@@ -517,7 +493,7 @@ int main(int argc, char **argv)
   */
 
   contactgroup = dJointGroupCreate(0);
-  const char* filename = obstacle_file_name.c_str();
+  std::string filename = obstacle_file_name;
   create_bodies(filename, &current_setup);
 
   // run simulation
