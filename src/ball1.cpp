@@ -318,66 +318,6 @@ static void simLoop(int pause)
   ros::spinOnce();
 }
 
-/****************************************************************/
-
-int read_setup_file(const char *filename, SETUP *h)
-{
-  int i;
-  FILE *stream;
-  char buffer[1000];
-
-  stream = fopen(filename, "r");
-  if (stream == NULL)
-  {
-    fprintf(stderr, "Can't open setup file %s", filename);
-    exit(-1);
-  }
-
-  h->n_obstacles = 0;
-
-  for (;;)
-  {
-    // read keyword
-    if (fscanf(stream, "%s", buffer) < 1)
-      break; // if we didn't read anything we are done
-
-    // handle an obstacle
-    if (strcmp(buffer, "o") == 0)
-    {
-      i = h->n_obstacles;
-      if (fscanf(stream, "%lg%lg%lg%lg%lg%lg%lg",
-                 &(h->obstacles[i].dimensions[XX]),
-                 &(h->obstacles[i].dimensions[YY]),
-                 &(h->obstacles[i].dimensions[ZZ]),
-                 &(h->obstacles[i].pos[XX]),
-                 &(h->obstacles[i].pos[YY]),
-                 &(h->obstacles[i].pos[ZZ]),
-                 &(h->obstacles[i].angle)) < 7)
-      {
-        fprintf(stderr, "bad obstacle in setup file %s\n", filename);
-        exit(-1);
-      }
-      printf("obstacle: %g %g %g %g %g %g %g\n",
-             h->obstacles[i].dimensions[XX],
-             h->obstacles[i].dimensions[YY],
-             h->obstacles[i].dimensions[ZZ],
-             h->obstacles[i].pos[XX],
-             h->obstacles[i].pos[YY],
-             h->obstacles[i].pos[ZZ],
-             h->obstacles[i].angle);
-      h->n_obstacles++;
-      continue;
-    }
-
-    fprintf(stderr, "bad keyword %s in setup file %s\n", buffer, filename);
-    exit(-1);
-  }
-
-  fclose(stream);
-}
-
-/****************************************************************/
-
 void create_bodies(std::string filename, SETUP *h)
 {
   int i;
